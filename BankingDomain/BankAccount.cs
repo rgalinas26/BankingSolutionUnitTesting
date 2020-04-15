@@ -6,10 +6,12 @@ namespace BankingDomain
     {
         private decimal balance = 1200;
         private ICalculateAccountBonuses BonusCalculator;
+        private INotifyTheFeds Feds;
 
-        public BankAccount(ICalculateAccountBonuses bonusCalculator)
+        public BankAccount(ICalculateAccountBonuses bonusCalculator, INotifyTheFeds feds)
         {
             BonusCalculator = bonusCalculator;
+            Feds = feds;
         }
 
         public decimal GetBalance()
@@ -32,6 +34,7 @@ namespace BankingDomain
             else
             {
                 balance -= amountToWithdraw;
+                Feds.Notify(this, amountToWithdraw);
             }      
         }
     }

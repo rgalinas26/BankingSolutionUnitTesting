@@ -1,4 +1,5 @@
 ﻿using BankingDomain;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,7 +23,7 @@ namespace BankingTests
         [Fact]
         public void OverdraftDoesntRemoveMoneyFromTheAccount()
         {
-            var bankAccount = new BankAccount(null);
+            var bankAccount = new BankAccount(null, new Mock<INotifyTheFeds>().Object);
             var openingBalance = bankAccount.GetBalance();
 
             try
@@ -41,7 +42,7 @@ namespace BankingTests
         [Fact]
         public void OverdraftThrows()
         {
-            var bankAccount = new BankAccount(null);
+            var bankAccount = new BankAccount(null, new Mock<INotifyTheFeds>().Object);
             var openingBalance = bankAccount.GetBalance();
 
             Assert.Throws<OverdraftException>(() => bankAccount.Withdraw(openingBalance + 1));
@@ -53,7 +54,7 @@ namespace BankingTests
         [Fact]
         public void CanTakeAllMoney()
         {
-            var bankAccount = new BankAccount(null);
+            var bankAccount = new BankAccount(null, new Mock<INotifyTheFeds>().Object);
 
             bankAccount.Withdraw(bankAccount.GetBalance());
 
