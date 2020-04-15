@@ -39,7 +39,6 @@ namespace BankingTests
             account.Withdraw(amountToWithdraw);
 
             Assert.Equal(openingBalance - 100M, account.GetBalance());
-
         }
     }
 }
