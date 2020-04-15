@@ -8,37 +8,47 @@ namespace BankingTests
 {
     public class BankAccountTests
     {
+        BankAccount Account;
+        decimal OpeningBalance;
+
+        public BankAccountTests()
+        {
+            Account = new BankAccount(new DummyBonusCalculator());
+            OpeningBalance = Account.GetBalance();
+        }
         [Fact]
         public void NewAccountsHaveAppropriateBalance()
         {
-            BankAccount account = new BankAccount();
-            decimal balance = account.GetBalance();
 
-            Assert.Equal(1200M, balance);
+            Assert.Equal(1200M, OpeningBalance);
         }
 
         [Fact]
         public void DepositingIncreasesBalance()
         {
-            var account = new BankAccount();
-            var openingBalance = account.GetBalance();
             var amountToDeposit = 100M;
 
-            account.Deposit(amountToDeposit);
+            Account.Deposit(amountToDeposit);
 
-            Assert.Equal(openingBalance + 100M, account.GetBalance());
+            Assert.Equal(OpeningBalance + 100M, Account.GetBalance());
         }
 
         [Fact]
         public void WithdrawlsDecreaseBalance()
         {
-            var account = new BankAccount();
-            var openingBalance = account.GetBalance();
             var amountToWithdraw = 100M;
 
-            account.Withdraw(amountToWithdraw);
+            Account.Withdraw(amountToWithdraw);
 
-            Assert.Equal(openingBalance - 100M, account.GetBalance());
+            Assert.Equal(OpeningBalance - 100M, Account.GetBalance());
+        }
+
+        public class DummyBonusCalculator : ICalculateAccountBonuses
+        {
+            public decimal GetDepositBonusFor(decimal balance, decimal amountToDeposit)
+            {
+                return 0;
+            }
         }
     }
 }
