@@ -25,7 +25,14 @@ namespace BankingDomain
 
         public void Withdraw(decimal amountToWithdraw)
         {
-            balance -= amountToWithdraw;
+            if(amountToWithdraw > balance)
+            {
+                throw new OverdraftException();
+            }
+            else
+            {
+                balance -= amountToWithdraw;
+            }      
         }
     }
 }
