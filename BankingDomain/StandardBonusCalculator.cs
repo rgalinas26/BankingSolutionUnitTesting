@@ -13,10 +13,10 @@ namespace BankingDomain
         {
             TheSystemTime = theSystemTime;
         }
-        public StandardBonusCalculator()
-        {
-            TheSystemTime = new SystemTime();
-        }
+        //public StandardBonusCalculator()
+        //{
+        //    TheSystemTime = new SystemTime();
+        //}
 
         public decimal CalculateBonusUsingStandardAlgorithm(decimal balance, decimal amount)
         {
