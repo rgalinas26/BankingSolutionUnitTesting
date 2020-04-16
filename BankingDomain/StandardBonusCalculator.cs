@@ -4,8 +4,20 @@ using System.Text;
 
 namespace BankingDomain
 {
-    public class StandardBonusCalculator
+    public class StandardBonusCalculator : ICalculateAccountBonuses
     {
+
+        ISystemTime TheSystemTime;
+
+        public StandardBonusCalculator(ISystemTime theSystemTime)
+        {
+            TheSystemTime = theSystemTime;
+        }
+        public StandardBonusCalculator()
+        {
+            TheSystemTime = new SystemTime();
+        }
+
         public decimal CalculateBonusUsingStandardAlgorithm(decimal balance, decimal amount)
         {
             // If the balance is above a certain cutoff & the time is before the close of day
@@ -27,10 +39,14 @@ namespace BankingDomain
             return balance > 10000;
         }
 
-
-        protected virtual bool BeforeCutoff()
+        private bool BeforeCutoff()
         {
-            return DateTime.Now.Hour <= 16;
+            return TheSystemTime.GetCurrent().Hour <= 16;
+        }
+
+        decimal ICalculateAccountBonuses.GetDepositBonusFor(decimal balance, decimal amountToDeposit)
+        {
+            return CalculateBonusUsingStandardAlgorithm(balance, amountToDeposit);
         }
     }
 }

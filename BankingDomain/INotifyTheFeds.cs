@@ -2,6 +2,6 @@
 {
     public interface INotifyTheFeds
     {
-        void Notify(BankAccount bankAccount, decimal amountToWithdraw);
+        void Notify(IGiveFederalRegulatorsAccountInformation bankAccount, decimal amountToWithdraw);
     }
 }
